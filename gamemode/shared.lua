@@ -20,6 +20,7 @@ function GM:StartCommand(ply, cmd)
 		end
 		cmd:SetViewAngles(Angle(0,ax,0))
 	end
+
 	if cmd:KeyDown( IN_FORWARD ) then -- IF W
 		cmd:SetButtons( IN_JUMP )
 	elseif cmd:KeyDown( IN_MOVERIGHT ) then -- IF D

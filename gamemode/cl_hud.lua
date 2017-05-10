@@ -72,57 +72,124 @@ local aimframe = vgui.Create( "DPanel" )
 	end
 
 local function F1_Menu()
-	if ( !frame ) then
-		local frame = vgui.Create( "DFrame" )
-			frame:SetSize(ScrW()/2,ScrH()/1.5)
-			frame:SetTitle("Sidewinder Help and Options")
-			frame:ShowCloseButton(true)
-			frame:SetVisible(true)
-			frame:Center()
-			frame:SetDraggable(false)
-			frame:SetScreenLock(true)
-			frame:MakePopup()
-			frame:SetDeleteOnClose(true)
 
-		local FOVSlider = vgui.Create( "DNumSlider", frame )
-			FOVSlider:SetPos( 10, 30 )
-			FOVSlider:SetSize( 300, 15 )
-			FOVSlider:SetText( "Player camera FOV" )
-			FOVSlider:SetMin( 60 )
-			FOVSlider:SetMax( 110 )
-			FOVSlider:SetDecimals( 0 )
-			FOVSlider:SetConVar("sw_cam_fov")
+	if ( !base ) then
+	
+	local base = vgui.Create( "DFrame" )
+		base:SetTitle("Sidewinder Help and Options")
+		base:SetSize(ScrW()/1.5,ScrH()/1.1)
+		base:SetDraggable(false)
+		base:Center()
+		base:MakePopup()
 
-		local DermaNumSlider = vgui.Create( "DNumSlider", frame )
-			DermaNumSlider:SetPos( 10, 50 )
-			DermaNumSlider:SetSize( 300, 15 )
-			DermaNumSlider:SetText( "Player camera distance" )
-			DermaNumSlider:SetMin( 100 )
-			DermaNumSlider:SetMax( 400 )
-			DermaNumSlider:SetDecimals( 0 )
-			DermaNumSlider:SetConVar("sw_cam_dist")
+	local sheet = vgui.Create( "DPropertySheet", base )
+		sheet:Dock( FILL )
 
-		local Mixer = vgui.Create( "DColorMixer", frame )
-			Mixer:SetPos(10,70)
-			Mixer:SetPalette( false ) 		--Show/hide the palette			DEF:true
-			Mixer:SetAlphaBar( false ) 		--Show/hide the alpha bar		DEF:true
-			Mixer:SetWangs( true )			--Show/hide the R G B A indicators 	DEF:true
-			Mixer:SetColor( crosshair_color )	--Set the default color
+	local panel1 = vgui.Create( "DPanel", sheet )
+		panel1.Paint = function( self, w, h ) draw.RoundedBox( 2, 0, 0, w, h, Color(100, 100, 100) ) end
+		sheet:AddSheet( "About", panel1, "icon16/information.png" )
 
-		local DermaButton = vgui.Create( "DButton", frame )
-			DermaButton:SetText( "Set crosshair color" )
-			DermaButton:SetPos( 10, 300 )
-			DermaButton:SetSize( 250, 30 )
-			DermaButton.DoClick = function()
-				crosshair_color = Mixer:GetColor()
-			end
+	local panel2 = vgui.Create( "DPanel", sheet )
+		panel2.Paint = function( self, w, h ) draw.RoundedBox( 2, 0, 0, w, h, Color(100, 100, 100) ) end
+		sheet:AddSheet( "Controls", panel2, "icon16/keyboard.png" )
 
-		local CheckBoxThing = vgui.Create( "DCheckBoxLabel", frame )
-			CheckBoxThing:SetPos( 300,30 )
-			CheckBoxThing:SetText( "Toggle floaty names" )
-			CheckBoxThing:SetConVar( "sw_floaty_names" )
-			CheckBoxThing:SetValue( 0 )
-			CheckBoxThing:SizeToContents()
+	local panel3 = vgui.Create( "DPanel", sheet )
+		panel3.Paint = function( self, w, h ) draw.RoundedBox( 2, 0, 0, w, h, Color(100, 100, 100) ) end
+		sheet:AddSheet( "Camera Options", panel3, "icon16/camera.png" )
+
+	local panel4 = vgui.Create( "DPanel", sheet )
+		panel4.Paint = function( self, w, h ) draw.RoundedBox( 2, 0, 0, w, h, Color(100, 100, 100) ) end
+		sheet:AddSheet( "Sound Options", panel4, "icon16/sound.png" )
+
+----------------------------
+-------- About Page --------
+----------------------------
+
+	local About_HTML = vgui.Create( "HTML" , panel1 )
+		About_HTML:Dock( FILL )
+		About_HTML:OpenURL("http://dev.mirai.red/homepage/") -- Placeholder
+
+----------------------------
+------ Controls Sheet ------
+----------------------------
+
+	local ControlList = vgui.Create( "DListView", panel2 )
+		ControlList:Dock(TOP)
+		ControlList:SetSize(0,300)
+
+		ControlList:AddColumn( "Control" )
+		ControlList:AddColumn( "Function" )
+
+		ControlList:AddLine( "Pressing W", "Make your player jump." )
+		ControlList:AddLine( "Double Tap W", "Make your player double jump!" )
+		ControlList:AddLine( "Holding A", "Make your player move left." )
+		ControlList:AddLine( "Double Tap A", "Make your player dash left." )
+		ControlList:AddLine( "Holding S", "Make your player crouch." )
+		ControlList:AddLine( "Pressing D", "Make your player move right." )
+		ControlList:AddLine( "Double Tap D", "Make your player dash right." )
+		ControlList:AddLine( "Pressing Space", "Make your player taunt other players!" )
+		ControlList:AddLine( "Mouse X-Axis", "Make your player face a certain 2D direction." )
+		ControlList:AddLine( "Mouse Y-Axis", "Make your player aim in an up/down direction." )
+		ControlList:AddLine( "Left Click", "Make your player use a weapon." )
+		ControlList:AddLine( "Right Click", "Make your player use a weapons secondary feature." )
+		ControlList:AddLine( "Pressing F", "Make your player drop an equipped item." )
+		ControlList:AddLine( "F1", "Open the 'Help and Options' panel you see here!" )
+		ControlList:AddLine( "F2", "DDOS the FBI" )
+
+	local Mixer = vgui.Create( "DColorMixer", panel2 )
+		Mixer:SetPos(10,310)
+		Mixer:SetPalette( false ) 		--Show/hide the palette			DEF:true
+		Mixer:SetAlphaBar( false ) 		--Show/hide the alpha bar		DEF:true
+		Mixer:SetWangs( true )			--Show/hide the R G B A indicators 	DEF:true
+		Mixer:SetColor( crosshair_color )	--Set the default color
+
+	local DermaButton = vgui.Create( "DButton", panel2 )
+		DermaButton:SetText( "Set crosshair color" )
+		DermaButton:SetPos( 10, 545 )
+		DermaButton:SetSize( 200, 30 )
+		DermaButton.DoClick = function()
+			crosshair_color = Mixer:GetColor()
+		end
+
+----------------------------
+------ Camera Options ------
+----------------------------
+
+	local FOVSlider = vgui.Create( "DNumSlider", panel3 )
+		FOVSlider:SetPos( 10, 5 )
+		FOVSlider:SetSize( 300, 15 )
+		FOVSlider:SetText( "Player camera FOV" )
+		FOVSlider:SetMin( 60 )
+		FOVSlider:SetMax( 110 )
+		FOVSlider:SetDecimals( 0 )
+		FOVSlider:SetConVar("sw_cam_fov")
+
+	local DermaNumSlider = vgui.Create( "DNumSlider", panel3 )
+		DermaNumSlider:SetPos( 10, 20 )
+		DermaNumSlider:SetSize( 300, 15 )
+		DermaNumSlider:SetText( "Player camera distance" )
+		DermaNumSlider:SetMin( 100 )
+		DermaNumSlider:SetMax( 400 )
+		DermaNumSlider:SetDecimals( 0 )
+		DermaNumSlider:SetConVar("sw_cam_dist")
+
+	local CheckBoxThing = vgui.Create( "DCheckBoxLabel", panel3 )
+		CheckBoxThing:SetPos( 10,40 )
+		CheckBoxThing:SetText( "Toggle floaty names" )
+		CheckBoxThing:SetConVar( "sw_floaty_names" )
+		CheckBoxThing:SetValue( 0 )
+		CheckBoxThing:SizeToContents()
+
+----------------------------
+------ Sound Options -------
+----------------------------
+
+	local DLabel = vgui.Create( "DLabel", panel4 )
+		DLabel:SetPos( 5, 5 )
+		DLabel:SetSize(500,0)
+		DLabel:SetAutoStretchVertical(true)
+		DLabel:SetText( "Coming Soon! Here you will be able to stream music right to your client!" )
+
 	end
 end
 
@@ -148,4 +215,6 @@ function HoveringNames()
 end
 hook.Add("HUDPaint", "HoveringNames", HoveringNames)
 
-net.Receive("help",F1_Menu())
+net.Receive("help",function()
+	F1_Menu()
+end)
