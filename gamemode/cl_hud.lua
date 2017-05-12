@@ -177,7 +177,6 @@ local function F1_Menu()
 		CheckBoxThing:SetPos( 10,40 )
 		CheckBoxThing:SetText( "Toggle floaty names" )
 		CheckBoxThing:SetConVar( "sw_floaty_names" )
-		CheckBoxThing:SetValue( 0 )
 		CheckBoxThing:SizeToContents()
 
 ----------------------------
